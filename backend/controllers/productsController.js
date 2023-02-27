@@ -19,6 +19,11 @@ const setProduct = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Producto no registrado, verifica tus datos')
     }
+/*     if (product.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error('Acceso no Autorizado')
+    }
+ */
 
     const product = await Product.create({
         product_name: req.body.product_name,
@@ -45,11 +50,11 @@ const updateProduct = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Producto no encontrado')
     }
-     if (product.user.toString() !== req.user.id) {
+ /*     if (product.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('Acceso no Autorizado')
     }
-
+ */
     const updateProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     res.status(200).json(updateProduct)
@@ -69,10 +74,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
         throw new Error('Producto no encontrado')
     }
         //verificamos que el user de la tarea sea igual al user del token
-    if (product.user.toString() !== req.user.id) {
+  /*   if (product.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('Acceso no Autorizado')
-    }
+    } */
     //const deletedTarea = await Tarea.findByIdAndDelete(req.params.id)
     await product.remove()
 

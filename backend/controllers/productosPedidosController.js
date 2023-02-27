@@ -5,6 +5,7 @@ const prodPedido = require('../models/productosPedidosModel')
 const getProdPedido = asyncHandler(async (req, res) => {
     const pPedido = await prodPedido.find()
 
+
     res.status(200).json(pPedido)
 })
 
@@ -17,7 +18,7 @@ const setProdPedido = asyncHandler(async (req, res) => {
     if (!req.body.IdPedido ||!req.body.IdProducto || !req.body.cantidad || !req.body.precio || !req.body.importe) {
 
         res.status(400)
-        throw new Error('Producto del pedido no encontrado, verifica tus datos')
+        throw new Error('Faltan datos, verifica tus datos')
     }
 
     const pPedido = await prodPedido.create({
@@ -44,11 +45,11 @@ const updateProdPedido = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Producto del pedido no encontrado')
     }
- /*     if (item.user.toString() !== req.user.id) {
+  /*  if (pPedido.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('Acceso no Autorizado')
-    } */
-
+    } 
+ */
     const updateProdPedido = await prodPedido.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     res.status(200).json(updateProdPedido)

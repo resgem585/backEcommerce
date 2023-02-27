@@ -4,6 +4,7 @@ const Pedido = require('../models/pedidosModel')
 
 const getPedido = asyncHandler(async (req, res) => {
     const pedido = await Pedido.find()
+   
 
     res.status(200).json(pedido)
 })
@@ -47,35 +48,29 @@ const updatePedido = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Pedido no encontrado')
     }
-     if (pedido.user.toString() !== req.user.id) {
+   /*   if (pedido.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('Acceso no Autorizado')
     }
-
+ */
     const updatePedido = await Pedido.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     res.status(200).json(updatePedido)
 })
 
 const deletePedido = asyncHandler(async (req, res) => {
-
+   
     if (req.user.role.toLowerCase() !=="admin" ) {
         res.status(401)
         throw new Error('Acceso no Autorizado')
     }
-
     const pedido = await Pedido.findById(req.params.id)
 
     if (!pedido) {
         res.status(400)
         throw new Error('Pedido no encontrado')
     }
-        //verificamos que el user de la tarea sea igual al user del token
-    if (pedido.user.toString() !== req.user.id) {
-        res.status(401)
-        throw new Error('Acceso no Autorizado')
-    }
-    //const deletedTarea = await Tarea.findByIdAndDelete(req.params.id)
+   
     await pedido.remove()
 
     res.status(200).json(req.params.id)
